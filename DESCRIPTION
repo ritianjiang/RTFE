@@ -3,8 +3,10 @@ Type: Package
 Title: RiTian's Features Extractor
 Version: 0.1.0
 Author: Hao-tian Wang
-Maintainer:  <ritianjiang@gmx.com>
+Maintainer: <ritianjiang@gmx.com>
 Description: An exercise for feature extracting
 License: WTFPL 2.0 
 Encoding: UTF-8
+Depends: stringr,magrittr
 LazyData: true
+RoxygenNote: 6.1.0
