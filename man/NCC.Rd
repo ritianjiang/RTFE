@@ -17,9 +17,9 @@ NCC(Seq, seqType, n)
 A vector contains the compositions
 }
 \description{
-The output is sorted by A/T/G/C at each posotions. For example, if you run
-NCC(xxx,"DNA",2), then you'll get a vector which is sorted according to AA,AT,AG,AC,TA,TT,TG,
-TC,GA,GT,GG,.....CC.
+The output is sorted by A/C/G/T at each posotions. For example, if you run
+NCC(xxx,"DNA",2), then you'll get a vector which is sorted according to AA,AC,AG,AT...
+TA,TC,TG,TT.
 }
 \details{
 The function implement the basic DNA/RNA Sequence nucleotide composition counting.
