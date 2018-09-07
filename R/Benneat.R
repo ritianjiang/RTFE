@@ -27,15 +27,15 @@ setGeneric("makeBenneat",function(Seqs,labs) standardGeneric("makeBenneat"))
 setMethod("makeBenneat",signature(Seqs="vector",labs="vector"),
           function(Seqs,labs){
             if(lapply(Seqs, str_length) %>% unique %>% length()!=1) stop("Length should be identical")
-            if(length(Seqs)!=length(labs)) stop("Lab nums is not the same as seq nums.")
+            if(length(Seqs)!=length(labs)) stop("Lab nums is not the same as seq nums.") #Set the validity manually
             seq_num<-length(Seqs);lab_num<-table(labs)
-            seq_length<-Seqs[1] %>% str_length()
-            result<-new("Benneat",Seqs=Seqs,labs=labs,
+            seq_length<-Seqs[1] %>% str_length() #Get the essensial elements for Benneat Class
+            result<-new("Benneat",Seqs=Seqs,labs=labs,# creat the class
                         seq_num=seq_num,lab_num=lab_num,seq_length=seq_length)
             return(result)
           })
 
-setMethod("show", "Benneat",
+setMethod("show", "Benneat",##Just adjust the show pattern for Benneat Class
            function(object) {
              cat(paste0("A benchmark set contains ",object@seq_length,"-length sequence \n"))
              #print(" ")
@@ -58,13 +58,13 @@ setMethod("show", "Benneat",
 setGeneric("PSTNPss",function(object,lableA,lableB) standardGeneric("PSTNPss"))
 
 setMethod("PSTNPss","Benneat",function(object,lableA,lableB){
-  seq_A<-object@Seqs[object@labs == lableA]
-  seq_B<-object@Seqs[object@labs == lableB]
+  seq_A<-object@Seqs[object@labs == lableA] #Get thesequence which is labeled as lableA
+  seq_B<-object@Seqs[object@labs == lableB] #Get thesequence which is labeled as lableA
   Dic<-expand.grid(c("A","T","C","G"),c("A","T","C","G"),c("A","T","C","G"),
                    stringsAsFactors = F) %>%
-    apply(1,paste,collapse="") %>% sort
+    apply(1,paste,collapse="") %>% sort #Create the name vector for 3-mer
   F_A<-matrix(-1,nrow=64,ncol=object@seq_length-2)
-  F_B<-matrix(-1,nrow=64,ncol=object@seq_length-2)
+  F_B<-matrix(-1,nrow=64,ncol=object@seq_length-2) #Calculate the frequency of each 3-mer in each position in both label-classes
   for(i in 1:object@seq_length-2){
     F_A[,i]<-lapply(seq_A, str_sub,start=i,end=i+2) %>%
       do.call(what = "rbind") %>%factor(levels = Dic) %>% table / length(seq_A)
@@ -73,8 +73,8 @@ setMethod("PSTNPss","Benneat",function(object,lableA,lableB){
     F_B[,i]<-lapply(seq_B, str_sub,start=i,end=i+2) %>%
       do.call(what = "rbind") %>%factor(levels = Dic) %>% table / length(seq_A)
   }
-  Z<- F_A - F_B;rownames(Z)<-Dic
-  P<-matrix(-1,nrow=object@seq_num,ncol=ncol(Z))
+  Z<- F_A - F_B;rownames(Z)<-Dic #create the Z matrix which contains z_{i,j}. Details and meanings is mentioned in Zhang Chun-Ting Lab's 2017 paper
+  P<-matrix(-1,nrow=object@seq_num,ncol=ncol(Z)) #get the Features
   for(i in 1:ncol(Z)){
     Z[lapply(object@Seqs, str_sub,start=i,end=i+2) %>% do.call(what="rbind"),i]->P[,i]
   }
