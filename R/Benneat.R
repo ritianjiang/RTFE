@@ -35,4 +35,26 @@ setMethod("makeBenneat",signature(Seqs="vector",labs="vector"),
             return(result)
           })
 
-#setGeneric("PSTNP",function(object,strand) standardGeneric("PSTNP"))
+setMethod("show", "Benneat",
+           function(object) {
+             cat(paste0("A benchmark set contains ",object@seq_length,"-length sequence \n"))
+             #print(" ")
+             print(object@lab_num)
+           }
+)
+
+##' A class used to store the benchmark dataset with the same length so called neat.
+##' @title Benneat
+##'
+##' @slot Seqs A vector contains the sequences
+##' @slot labs A vector contains the labels like "methylated"/"unmethylated"
+##' @slot seq_num A numeric denotes the num of seqlist
+##' @slot lab_num A table contains the num of each Label
+##' @slot seq_length A numerci denotes the length of each sequence
+##' @docType class
+##' @export
+
+setGeneric("PSTNP",function(object,strand) standardGeneric("PSTNP"))
+setMethod("PSTNP","Benneat",function(object,strand){
+
+})
