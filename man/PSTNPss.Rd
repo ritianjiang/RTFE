@@ -9,7 +9,8 @@ PSTNPss(object, lableA, lableB)
 }
 \value{
 A matrix contains ALL sequences' PSTNPss features,each row denotes
-a sequence. The Sequence is sorted by its order in Benneat object
+a sequence. The Sequence is sorted by its order in Benneat object. Each col
+is sorted by AAA,AAC,AAG............TTT
 }
 \description{
 PSTNPss

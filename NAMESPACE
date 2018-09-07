@@ -2,5 +2,6 @@
 
 export(NCC)
 export(PSTNPss)
+export(getNCC)
 export(makeBenneat)
 exportClasses(Benneat)

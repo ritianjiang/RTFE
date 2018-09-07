@@ -52,7 +52,8 @@ setMethod("show", "Benneat",
 ##' @docType method
 ##' @export
 ##' @return A matrix contains ALL sequences' PSTNPss features,each row denotes
-##' a sequence. The Sequence is sorted by its order in Benneat object
+##' a sequence. The Sequence is sorted by its order in Benneat object. Each col
+##' is sorted by AAA,AAC,AAG............TTT
 
 setGeneric("PSTNPss",function(object,lableA,lableB) standardGeneric("PSTNPss"))
 
@@ -79,3 +80,25 @@ setMethod("PSTNPss","Benneat",function(object,lableA,lableB){
   }
   return(P %>% as.data.frame())
 })
+
+##' @title getNCC
+##'
+##' @param object A Benneat object
+##' @param seqType The sequence is DNA or RNA. It should be either 'DNA' or 'RNA'
+##' @param n The k of k-mer
+##' @docType method
+##' @export
+##' @return A matrix contains ALL sequences' NCC features,each row denotes
+##' a sequence. The Sequence is sorted by its order in Benneat object. if you run
+##' getNCC(xxx,"DNA",2), then each col will be sorted according to AA,AC,AG,AT...
+##' TA,TC,TG,TT.
+setGeneric("getNCC",function(object,seqType,n) standardGeneric("getNCC"))
+setMethod("getNCC","Benneat",function(object,seqType,n){
+  lapply(object@Seqs,NCC,n=n,seqType=seqType) %>% do.call(what="rbind") %>%
+    as.data.frame() %>% return
+})
+
+
+
+
+
