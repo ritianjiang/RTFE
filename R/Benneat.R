@@ -45,9 +45,9 @@ setMethod("show", "Benneat",##Just adjust the show pattern for Benneat Class
 
 ##' @title PSTNPss
 ##'
-##' @slot object A Benneat object
-##' @slot lableA character,Label as the POSITIVE label
-##' @slot lableB character,Label as the POSITIVE label
+##' @param object A Benneat object
+##' @param lableA character,Label as the POSITIVE label
+##' @param lableB character,Label as the POSITIVE label
 ##' @docType methods
 ##' @export
 ##' @return A matrix contains ALL sequences' PSTNPss features,each row denotes
@@ -98,7 +98,8 @@ setMethod("getNCC","Benneat",function(object,seqType,n){
 })
 
 ##' @title PSTNPds
-##' @description Feature PSTNPds
+##' @description <PSTNPds is the double-strand version of PSTNPss>
+##' Feature PSTNPds
 ##'using a statistical strategy based on
 ##'double-stranded characteristics of DNA according to
 ##'complementary base pairing, so they have more evident
@@ -106,12 +107,12 @@ setMethod("getNCC","Benneat",function(object,seqType,n){
 ##'identical, the same to C and G. Thus, for every sample,
 ##'it can be converted into a sequence contained A and T
 ##'only.
-##' @slot object A Benneat object
-##' @slot lableA character,Label as the POSITIVE label
-##' @slot lableB character,Label as the POSITIVE label
+##' @param object A Benneat object
+##' @param lableA character,Label as the POSITIVE label
+##' @param lableB character,Label as the POSITIVE label
 ##' @docType method
 ##' @export
-##' @return A matrix contains ALL sequences' PSTNPss features,each row denotes
+##' @return A matrix contains ALL sequences' PSTNPds features,each row denotes
 ##' a sequence. The Sequence is sorted by its order in Benneat object. Columns
 ##' are sorted by AAA,AAC,ACA,ACC...CCC <8 columns in total>.
 

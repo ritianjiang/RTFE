@@ -7,12 +7,20 @@
 \usage{
 PSTNPds(object, lableA, lableB)
 }
+\arguments{
+\item{object}{A Benneat object}
+
+\item{lableA}{character,Label as the POSITIVE label}
+
+\item{lableB}{character,Label as the POSITIVE label}
+}
 \value{
-A matrix contains ALL sequences' PSTNPss features,each row denotes
+A matrix contains ALL sequences' PSTNPds features,each row denotes
 a sequence. The Sequence is sorted by its order in Benneat object. Columns
 are sorted by AAA,AAC,ACA,ACC...CCC <8 columns in total>.
 }
 \description{
+<PSTNPds is the double-strand version of PSTNPss>
 Feature PSTNPds
 using a statistical strategy based on
 double-stranded characteristics of DNA according to
@@ -22,13 +30,3 @@ identical, the same to C and G. Thus, for every sample,
 it can be converted into a sequence contained A and T
 only.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{object}}{A Benneat object}
-
-\item{\code{lableA}}{character,Label as the POSITIVE label}
-
-\item{\code{lableB}}{character,Label as the POSITIVE label}
-}}
-

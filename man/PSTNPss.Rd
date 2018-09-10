@@ -7,6 +7,13 @@
 \usage{
 PSTNPss(object, lableA, lableB)
 }
+\arguments{
+\item{object}{A Benneat object}
+
+\item{lableA}{character,Label as the POSITIVE label}
+
+\item{lableB}{character,Label as the POSITIVE label}
+}
 \value{
 A matrix contains ALL sequences' PSTNPss features,each row denotes
 a sequence. The Sequence is sorted by its order in Benneat object. Each col
@@ -15,13 +22,3 @@ is sorted by AAA,AAC,AAG............TTT
 \description{
 PSTNPss
 }
-\section{Slots}{
-
-\describe{
-\item{\code{object}}{A Benneat object}
-
-\item{\code{lableA}}{character,Label as the POSITIVE label}
-
-\item{\code{lableB}}{character,Label as the POSITIVE label}
-}}
-
