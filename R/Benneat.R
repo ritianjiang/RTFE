@@ -18,7 +18,7 @@ setClass("Benneat",
 ##'
 ##' @param  Seqs A vector contains the sequences
 ##' @param labs A vector contains the labels like "methylated"/"unmethylated"
-##' @docType method
+##' @docType methods
 ##' @export
 ##' @return A Benneat Class
 
@@ -43,13 +43,12 @@ setMethod("show", "Benneat",##Just adjust the show pattern for Benneat Class
            }
 )
 
-##'
 ##' @title PSTNPss
 ##'
 ##' @slot object A Benneat object
 ##' @slot lableA character,Label as the POSITIVE label
 ##' @slot lableB character,Label as the POSITIVE label
-##' @docType method
+##' @docType methods
 ##' @export
 ##' @return A matrix contains ALL sequences' PSTNPss features,each row denotes
 ##' a sequence. The Sequence is sorted by its order in Benneat object. Each col
@@ -86,7 +85,7 @@ setMethod("PSTNPss","Benneat",function(object,lableA,lableB){
 ##' @param object A Benneat object
 ##' @param seqType The sequence is DNA or RNA. It should be either 'DNA' or 'RNA'
 ##' @param n The k of k-mer
-##' @docType method
+##' @docType methods
 ##' @export
 ##' @return A matrix contains ALL sequences' NCC features,each row denotes
 ##' a sequence. The Sequence is sorted by its order in Benneat object. if you run
@@ -98,7 +97,51 @@ setMethod("getNCC","Benneat",function(object,seqType,n){
     as.data.frame() %>% return
 })
 
+##' @title PSTNPds
+##' @description Feature PSTNPds
+##'using a statistical strategy based on
+##'double-stranded characteristics of DNA according to
+##'complementary base pairing, so they have more evident
+##'statistical features. At this point, we deem A and T as
+##'identical, the same to C and G. Thus, for every sample,
+##'it can be converted into a sequence contained A and T
+##'only.
+##' @slot object A Benneat object
+##' @slot lableA character,Label as the POSITIVE label
+##' @slot lableB character,Label as the POSITIVE label
+##' @docType method
+##' @export
+##' @return A matrix contains ALL sequences' PSTNPss features,each row denotes
+##' a sequence. The Sequence is sorted by its order in Benneat object. Columns
+##' are sorted by AAA,AAC,ACA,ACC...CCC <8 columns in total>.
 
+setGeneric("PSTNPds",function(object,lableA,lableB) standardGeneric("PSTNPds"))
+
+setMethod("PSTNPds","Benneat",function(object,lableA,lableB){
+  newSeq<-str_replace_all(string = object@Seqs,pattern = "T",replacement = "A")
+  newSeq<-str_replace_all(string = newSeq,pattern = "G",replacement = "C")
+  seq_A<-newSeq[object@labs == lableA] #Get thesequence which is labeled as lableA
+  seq_B<-newSeq[object@labs == lableB] #Get thesequence which is labeled as lableA
+  Dic<-expand.grid(c("A","C"),c("A","C"),c("A","C"),
+                   stringsAsFactors = F) %>%
+    apply(1,paste,collapse="") %>% sort #Create the name vector for 3-mer
+  F_A<-matrix(-1,nrow=8,ncol=object@seq_length-2)
+  F_B<-matrix(-1,nrow=8,ncol=object@seq_length-2) #Calculate the frequency of each 3-mer in each position in both label-classes
+  for(i in 1:object@seq_length-2){
+    F_A[,i]<-lapply(seq_A, str_sub,start=i,end=i+2) %>%
+      do.call(what = "rbind") %>%factor(levels = Dic) %>% table / length(seq_A)
+  }
+  for(i in 1:object@seq_length-2){
+    F_B[,i]<-lapply(seq_B, str_sub,start=i,end=i+2) %>%
+      do.call(what = "rbind") %>%factor(levels = Dic) %>% table / length(seq_A)
+  }
+  Z<- F_A - F_B;rownames(Z)<-Dic #create the Z matrix which contains z_{i,j}. Details and meanings is mentioned in Zhang Chun-Ting Lab's 2017 paper
+  P<-matrix(-1,nrow=object@seq_num,ncol=ncol(Z)) #get the Features
+  for(i in 1:ncol(Z)){
+    Z[lapply(newSeq, str_sub,start=i,end=i+2) %>% do.call(what="rbind"),i]->P[,i]
+  }
+  return(P %>% as.data.frame())
+})
 
 
 
