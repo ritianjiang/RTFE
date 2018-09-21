@@ -14,3 +14,24 @@ getDNAClass<-function(nuc){
     return(c(1,0,1))
   }else{return(c(0,1,1))}
 }
+
+
+##' The function returns a vector which return the PseKNC's nucleatiode part
+##' PseKNC is the daughter-function for the funtion which is designed to lapply
+##' @title PseKNC
+##'
+##' @param Seq the Sequence
+##' @return A vector contains the PseKNC's nucleotide part, the length is same as the
+##'         input sequence
+##' @export
+PseKNC_each<-function(i,aa,seq){#i for apply; aa the nuclieatide to count; seq the sequence
+  subseq<-substr(seq,1,i)
+  cou<-str_count(subseq,pattern = aa)
+  return(cou/str_length(subseq))
+}
+
+PseKNC<-function(Seq){
+  alphabet<-Seq[1]
+  return(lapply(X=1:str_length(Seq),FUN = PseKNC_each,aa="T",seq=testSeq) %>%
+           unlist)
+}
