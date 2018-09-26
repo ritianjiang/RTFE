@@ -29,8 +29,8 @@ PseKNC_each<-function(i,seq){#i for apply; seq the sequence
 ##' @title PseKNC
 ##'
 ##' @param Seq the Sequence
-##' @return A vector contains the PseKNC's nucleotide part, the length is same as the
-##'         input sequence
+##' @return A vector contains the PseKNC, its formula is like \{0,0,1,1,0,1,0,0.5 \}.
+##'    each 4 number denotes a nucleutide in the Seq.
 ##' @export
 PseKNC<-function(Seq){
   return(lapply(1:str_length(Seq),FUN = PseKNC_each,seq=Seq) %>% unlist)
