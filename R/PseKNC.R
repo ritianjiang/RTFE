@@ -17,10 +17,11 @@ getDNAClass<-function(nuc){
 
 
 
-PseKNC_each<-function(i,aa,seq){#i for apply; aa the nuclieatide to count; seq the sequence
+PseKNC_each<-function(i,seq){#i for apply; seq the sequence
   subseq<-substr(seq,1,i)
+  aa<-substr(seq,i,i)
   cou<-str_count(subseq,pattern = aa)
-  return(cou/str_length(subseq))
+  return(c(getDNAClass(aa),cou/str_length(subseq)))
 }
 
 ##' The function returns a vector which return the PseKNC's nucleatiode part
@@ -32,7 +33,5 @@ PseKNC_each<-function(i,aa,seq){#i for apply; aa the nuclieatide to count; seq t
 ##'         input sequence
 ##' @export
 PseKNC<-function(Seq){
-  alphabet<-Seq[1]
-  return(lapply(X=1:str_length(Seq),FUN = PseKNC_each,aa="T",seq=testSeq) %>%
-           unlist)
+  return(lapply(1:str_length(Seq),FUN = PseKNC_each,seq=Seq) %>% unlist)
 }
