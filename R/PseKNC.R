@@ -16,20 +16,21 @@ getDNAClass<-function(nuc){
 }
 
 
-##' The function returns a vector which return the PseKNC's nucleatiode part
-##' PseKNC is the daughter-function for the funtion which is designed to lapply
-##' @title PseKNC
-##'
-##' @param Seq the Sequence
-##' @return A vector contains the PseKNC's nucleotide part, the length is same as the
-##'         input sequence
-##' @export
+
 PseKNC_each<-function(i,aa,seq){#i for apply; aa the nuclieatide to count; seq the sequence
   subseq<-substr(seq,1,i)
   cou<-str_count(subseq,pattern = aa)
   return(cou/str_length(subseq))
 }
 
+##' The function returns a vector which return the PseKNC's nucleatiode part
+##' PseKNC_each is the daughter-function for the funtion which is designed to lapply
+##' @title PseKNC
+##'
+##' @param Seq the Sequence
+##' @return A vector contains the PseKNC's nucleotide part, the length is same as the
+##'         input sequence
+##' @export
 PseKNC<-function(Seq){
   alphabet<-Seq[1]
   return(lapply(X=1:str_length(Seq),FUN = PseKNC_each,aa="T",seq=testSeq) %>%
