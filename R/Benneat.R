@@ -144,5 +144,16 @@ setMethod("PSTNPds","Benneat",function(object,lableA,lableB){
   return(P %>% as.data.frame())
 })
 
-
+##' @title getPseKNC
+##'
+##' @param object A Benneat object
+##' @docType methods
+##' @export
+##' @return A matrix contains ALL sequences' PseKNC features,each row denotes
+##' a sequence. The Sequence is sorted by its order in Benneat object.
+setGeneric("getPseKNC",function(object) standardGeneric("getPseKNC"))
+setMethod("getPseKNC","Benneat",function(object){
+  lapply(object@Seqs,PseKNC) %>% do.call(what="rbind") %>%
+    as.data.frame() %>% return
+})
 
