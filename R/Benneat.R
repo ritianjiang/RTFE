@@ -157,3 +157,15 @@ setMethod("getPseKNC","Benneat",function(object){
     as.data.frame() %>% return
 })
 
+##' @title getEIIP
+##'
+##' @param object A Benneat object
+##' @docType methods
+##' @export
+##' @return A matrix contains ALL sequences' EIIP features,each row denotes
+##' a sequence. The Sequence is sorted by its order in Benneat object.
+setGeneric("getEIIP",function(object,EIIP) standardGeneric("getEIIP"))
+setMethod("getEIIP","Benneat",function(object,EIIP=c(0.1260,0.1335,0.0806,0.1340)){
+  lapply(object@Seqs,EIIP) %>% do.call(what="rbind") %>%
+    as.data.frame() %>% return
+})
