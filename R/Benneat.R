@@ -217,7 +217,7 @@ setMethod("getT2PseKNC","Benneat",function(object,phychem_file = "aaa",
     phychem<-apply(phychem,1,znorm) %>% t
   }
 
-  lapply(object@Seqs,T2PseKNC,phychem=phychem,lambda=4) %>% do.call(what="rbind") %>%
+  lapply(object@Seqs,T2PseKNC,phychem=phychem,lambda=lambda) %>% do.call(what="rbind") %>%
     as.data.frame -> result
   return(result)
 })
