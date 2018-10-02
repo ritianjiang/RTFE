@@ -208,11 +208,9 @@ T2PseKNC<-function(Seq,phychem,lambda=4){
 setMethod("getT2PseKNC","Benneat",function(object,phychem_file = NULL,
                                            normalization=T,
                                            lambda=4){
-  if(!is.null(phychem)){ #The default diprogb file
-    phychem<-read.csv(paste0(system.file(package="RTFE"),
-                               "/data/feature_6_diprogb.csv"),
-                      row.names = 1)
-    phychem<-as.matrix(phychem)
+  if(is.null(phychem)){ #The default diprogb file
+    cat("You can use the default data in RTFE/Path/data/Rdata.rds")
+    return()
   }
   else{phychem<-phychem_file %>% as.matrix}
   if(normalization == T){
