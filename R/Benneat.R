@@ -205,10 +205,10 @@ T2PseKNC<-function(Seq,phychem,lambda=4){
 
 
 
-setMethod("getT2PseKNC","Benneat",function(object,phychem_file = NULL,
+setMethod("getT2PseKNC","Benneat",function(object,phychem_file = "aaa",
                                            normalization=T,
                                            lambda=4){
-  if(is.null(phychem)){ #The default diprogb file
+  if(phychem_file =="aaa"){ #The default diprogb file
     cat("You can use the default data in RTFE/Path/data/Rdata.rds")
     return()
   }
