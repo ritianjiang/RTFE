@@ -169,3 +169,57 @@ setMethod("getEIIP","Benneat",function(object,EIIP=c(0.1260,0.1335,0.0806,0.1340
   lapply(object@Seqs,EIIP) %>% do.call(what="rbind") %>%
     as.data.frame() %>% return
 })
+
+##' @title getT2PseKNC
+##' @description Please make sure the sequence type of your data. The default file is 6 features of double-strand B-DNA
+##' @param object A Benneat object
+##' @param phychem_file A matrix;whose rownames are features and colnames are 2-mer
+##' @param normalization Bool, if TRUE, the function will perform normalization. default:T
+##' @param lambda numeric. The max number of sequence tiers. default:4
+##' @docType methods
+##' @export
+##' @return A matrix contains ALL sequences' moditified T2PseKNC features,each row denotes
+##' a sequence. The Sequence is sorted by its order in Benneat object. The return
+##' value only contains the long-range part of T2PSeKNC. The detailed explanation
+##' can be find in Hao Lin Groups' paper iTerm-PseKNC. This function only implement
+##' the 2-mer situations. The ncol of result will be as lambda*(phechem_file feature nums)-length
+setGeneric("getT2PseKNC",function(object,phychem_file=NULL,
+                                  normalization=T,
+                                  lambda = 4) standardGeneric("getT2PseKNC"))
+##z nromalization function
+znorm<-function(x){
+  return((x - mean(x))/sd(x))
+}
+##T2PseKNC for one sequence
+T2PseKNC<-function(Seq,phychem,lambda=4){
+  mer2_1<-str_sub(Seq,start = 1:(str_length(Seq)-1),end=2:str_length(Seq))
+  result<-c()
+  for(i in 1:lambda){
+    mer1<-mer2_1[1:(length(mer2_1)-i)]
+    mer2<-mer2_1[(i+1):length(mer2_1)]
+    total_mer<-phychem[,mer2]*phychem[,mer1]
+    result<-c(result,apply(total_mer,1,mean) %>% as.numeric)
+  }
+  return(result)
+}
+
+
+
+setMethod("getT2PseKNC","Benneat",function(object,phychem_file = NULL,
+                                           normalization=T,
+                                           lambda=4){
+  if(!is.null(phychem)){ #The default diprogb file
+    phychem<-read.csv(paste0(system.file(package="RTFE"),
+                               "/data/feature_6_diprogb.csv"),
+                      row.names = 1)
+    phychem<-as.matrix(phychem)
+  }
+  else{phychem<-phychem_file %>% as.matrix}
+  if(normalization == T){
+    phychem<-apply(phychem,1,znorm) %>% t
+  }
+
+  lapply(object@Seqs,T2PseKNC,phychem=phychem,lambda=4) %>% do.call(what="rbind") %>%
+    as.data.frame -> result
+  return(result)
+})

@@ -5,7 +5,7 @@
 \alias{getEIIP}
 \title{getEIIP}
 \usage{
-getEIIP(object, EIIP)
+getEIIP(object, EIIP = c(0.126, 0.1335, 0.0806, 0.134))
 }
 \arguments{
 \item{object}{A Benneat object}
