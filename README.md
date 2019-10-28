@@ -1,6 +1,6 @@
 # RTFE
 
-##Intro
+## Intro
 
 It's a package to extract features from DNA sequence.
 It has implemented some methods like:
