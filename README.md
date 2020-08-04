@@ -11,5 +11,7 @@ The package is designed for another package: [**p6mA**](https://github.com/Kongl
 package for predicting 
 N^6-methyladenines.
 
-I didn't write document or tiny vigenette yet, maybe one day I'll add them. 
+I didn't write document or tiny vigenette yet, maybe one day I'll add them.
+
+The prerequired package is _pbapply_, _magrittr_, _Biostrings_, and _stringr_.
 
